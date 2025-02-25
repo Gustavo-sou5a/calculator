@@ -61,6 +61,8 @@ for (let i = NUM_DIGITS-1; i >= 0; i--) {
         // if (display.textContent.length < MAX_DIGITS_PER_NUMBER)
             addToDisplay(i);
     });
+    digitBtn.addEventListener("mouseover", () => digitBtn.style.opacity = 0.5);
+    digitBtn.addEventListener("mouseleave", () => digitBtn.style.opacity = 1);
     digitsDiv.appendChild(digitBtn);
 }
 
@@ -68,9 +70,9 @@ for (let i = NUM_DIGITS-1; i >= 0; i--) {
 let clearBtn = document.createElement("button");
 clearBtn.textContent = "CE";
 clearBtn.classList.add("clear");
-clearBtn.addEventListener("click", () => {
-    removeFromDisplay();
-});
+clearBtn.addEventListener("click", () => removeFromDisplay());
+clearBtn.addEventListener("mouseover", () => clearBtn.style.opacity = 0.5);
+clearBtn.addEventListener("mouseleave", () => clearBtn.style.opacity = 1);
 clearBtn.disabled = true;
 digitsDiv.insertBefore(clearBtn, document.querySelector(".digit-0"));
 
@@ -82,6 +84,8 @@ decimalBtn.addEventListener("click", () => {
     addToDisplay(".");
     decimalBtn.disabled = true;  
 });
+decimalBtn.addEventListener("mouseover", () => decimalBtn.style.opacity = 0.5);
+decimalBtn.addEventListener("mouseleave", () => decimalBtn.style.opacity = 1);
 digitsDiv.appendChild(decimalBtn);
 
 const operatorsDiv = document.querySelector("#operators");
@@ -101,6 +105,8 @@ OPERATORS.forEach((operator) => {
         else
             endOperation(operator.op);
     });
+    operatorBtn.addEventListener("mouseover", () => operatorBtn.style.opacity = 0.5);
+    operatorBtn.addEventListener("mouseleave", () => operatorBtn.style.opacity = 1);
     operatorBtn.disabled = true;
     operatorsDiv.appendChild(operatorBtn); 
 });
