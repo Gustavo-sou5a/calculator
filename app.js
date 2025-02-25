@@ -36,6 +36,7 @@ for (let i = NUM_DIGITS-1; i >= 0; i--) {
     let digitBtn = document.createElement("button");
     digitBtn.textContent = i;
     digitBtn.classList.add(`digit-${i}`);
+    digitBtn.classList.add("digit");
     digitsDiv.appendChild(digitBtn);
 }
 
@@ -56,6 +57,9 @@ OPERATORS.forEach((operator) => {
     let operatorBtn = document.createElement("button");
     operatorBtn.textContent = operator;
     operatorBtn.setAttribute("id", `operator-${operator}`);
+    if (operator !== "AC") {
+        operatorBtn.classList.add("operator");
+    }
     operatorsDiv.appendChild(operatorBtn); 
 });
 

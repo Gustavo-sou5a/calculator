@@ -67,7 +67,6 @@ button {
 #digits {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: center; */
     padding: 0;
     width: 250px;
 }
@@ -75,7 +74,6 @@ button {
 #operators {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: center; */
     width: 100px;
 }
 
@@ -86,4 +84,17 @@ button {
 button.clear,
 button#operator-AC {
     background-color: rgb(240, 100, 100);
+}
+
+button.digit {
+    background-color: beige;
+}
+
+button.operator {
+    background-color: rgb(178, 245, 169);
+    /* background-color: rgb(194, 240, 252); */
+}
+
+button.decimal {
+    background-color: rgb(238, 211, 162);
 }
