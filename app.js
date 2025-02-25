@@ -50,6 +50,7 @@ const EMPTY_OPERTATION = {
 };
 let runningOperation = {...EMPTY_OPERTATION};
 
+// Digits
 const digitsDiv = document.querySelector("#digits");
 for (let i = NUM_DIGITS-1; i >= 0; i--) {
     let digitBtn = document.createElement("button");
@@ -59,12 +60,13 @@ for (let i = NUM_DIGITS-1; i >= 0; i--) {
     digitBtn.addEventListener("click", () => {
         // const display = document.querySelector("#display");
         // if (display.textContent.length < MAX_DIGITS_PER_NUMBER)
-            addToDisplay(i);
+        addToDisplay(i);
     });
     digitBtn.addEventListener("mouseover", () => digitBtn.style.opacity = 0.5);
     digitBtn.addEventListener("mouseleave", () => digitBtn.style.opacity = 1);
     digitsDiv.appendChild(digitBtn);
 }
+
 
 // Adding the CE (Clear Entry) button for erasing the last input
 let clearBtn = document.createElement("button");
@@ -88,6 +90,7 @@ decimalBtn.addEventListener("mouseover", () => decimalBtn.style.opacity = 0.5);
 decimalBtn.addEventListener("mouseleave", () => decimalBtn.style.opacity = 1);
 digitsDiv.appendChild(decimalBtn);
 
+// Operators
 const operatorsDiv = document.querySelector("#operators");
 OPERATORS.forEach((operator) => {
     let operatorBtn = document.createElement("button");
@@ -98,12 +101,7 @@ OPERATORS.forEach((operator) => {
         operatorBtn.classList.add("operator");
     
     operatorBtn.addEventListener("click", () => {
-        if (operator.op === "AC")
-            eraseData();
-        else if (Number.isNaN(runningOperation.b))
-            startOperation(operator.op);
-        else
-            endOperation(operator.op);
+        operatorEventListener(operator.op);
     });
     operatorBtn.addEventListener("mouseover", () => operatorBtn.style.opacity = 0.5);
     operatorBtn.addEventListener("mouseleave", () => operatorBtn.style.opacity = 1);
@@ -111,6 +109,14 @@ OPERATORS.forEach((operator) => {
     operatorsDiv.appendChild(operatorBtn); 
 });
 
+function operatorEventListener(op) {
+    if (op === "AC")
+        eraseData();
+    else if (Number.isNaN(runningOperation.b))
+        startOperation(op);
+    else
+        endOperation(op);
+}
 
 /**
  * Adding the number (or decimal point) to the display
@@ -278,3 +284,40 @@ function disableEraseButtons() {
     ce.disabled = true;
     ac.disabled = true;
 }
+
+addEventListener("keydown", (event) => {
+    switch (event.key) {
+        case "0":
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+        case "9":
+            addToDisplay(event.key);
+            break;
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+            operatorEventListener(event.key);
+            break;
+        case "Enter":
+            operatorEventListener("=");
+            break;
+        case "Delete":
+            operatorEventListener("AC");
+            break;
+        case "Backspace":
+            removeFromDisplay();
+            break;
+        case ".":
+            addToDisplay(".");
+            decimalBtn.disabled = true;
+            break;
+    }
+    console.log(event.key);
+});
