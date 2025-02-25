@@ -82,7 +82,7 @@ button {
 } */
 
 button.clear,
-button#operator-AC {
+button#operator-ac {
     background-color: rgb(240, 100, 100);
 }
 
