@@ -40,8 +40,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: end;
+    word-wrap: anywhere;
     background-color: rgb(175, 175, 175);
     padding: 10px;
+    padding-left: 20px;
     font-size: 30px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

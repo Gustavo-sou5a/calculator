@@ -33,7 +33,7 @@ function operate(a, b, operation) {
  * Creating buttons for digits and operators on the DOM
  */
 const NUM_DIGITS = 10;
-// const MAX_DIGITS_PER_NUMBER = 12;
+const MAX_DIGITS_PER_NUMBER = 15;
 const OPERATORS = [
     {op:"AC", name:"ac"},
     {op:"+", name:"plus"},
@@ -58,8 +58,7 @@ for (let i = NUM_DIGITS-1; i >= 0; i--) {
     digitBtn.classList.add(`digit-${i}`);
     digitBtn.classList.add("digit");
     digitBtn.addEventListener("click", () => {
-        // const display = document.querySelector("#display");
-        // if (display.textContent.length < MAX_DIGITS_PER_NUMBER)
+        const display = document.querySelector("#display");
         addToDisplay(i);
     });
     digitBtn.addEventListener("mouseover", () => digitBtn.style.opacity = 0.5);
@@ -102,6 +101,7 @@ OPERATORS.forEach((operator) => {
     
     operatorBtn.addEventListener("click", () => {
         operatorEventListener(operator.op);
+        enableDigits();
     });
     operatorBtn.addEventListener("mouseover", () => operatorBtn.style.opacity = 0.5);
     operatorBtn.addEventListener("mouseleave", () => operatorBtn.style.opacity = 1);
@@ -146,20 +146,17 @@ function addToDisplay(num) {
 
     (Number.isNaN(runningOperation.op)) ? runningOperation.a = display.textContent : runningOperation.b = display.textContent;
 
-    console.log(runningOperation.a);
-    console.log(runningOperation.b);
-
+    if (display.textContent.length > MAX_DIGITS_PER_NUMBER)
+        disableDigits();
 }
-
 /**
  * Removes the last input given from the display
  */
 function removeFromDisplay() {
     const display = document.querySelector("#display");
     let text = display.textContent;
-    if (text === "Crazy") {
+    if (text === "Crazy")
         eraseData();
-    }
     else {
         display.textContent = text.slice(0, -1);
         (Number.isNaN(runningOperation.op)) ? runningOperation.a = display.textContent : runningOperation.b = display.textContent;
@@ -171,9 +168,11 @@ function removeFromDisplay() {
         else
             clearBtn.disabled = false;
     }
+
+    enableDigits();
     // If the entry erased was the decimal point, we can use it again
     if (text.charAt(text.length - 1) === ".")
-        enableDecimalPoint();
+        enableDecimalPoint();    
 }
 
 /**
@@ -199,7 +198,6 @@ function endOperation(nextOp) {
 
         disableEqualButton();
         enableDecimalPoint();
-        console.log(res);
 
         const display = document.querySelector("#display");
         display.textContent = res;
@@ -234,6 +232,16 @@ function eraseData() {
 
 function isFirstNumber() {
     return runningOperation.op !== NaN;
+}
+
+function disableDigits() {
+    const digitsButtons = document.querySelectorAll(".digit");
+    digitsButtons.forEach((button) => button.disabled = true);
+}
+
+function enableDigits() {
+    const digitsButtons = document.querySelectorAll(".digit");
+    digitsButtons.forEach((button) => button.disabled = false);
 }
 
 function enableOperatorButtons() {
@@ -278,21 +286,6 @@ function enableEraseButtons() {
     ac.disabled = false;
 }
 
-/*
-function disableEraseButtons() {
-    const ce = document.querySelector(".clear");
-    const ac = document.querySelector("#operator-ac");
-    ce.disabled = true;
-    ac.disabled = true;
-}
-*/
-
-// let areOperatorsOn = false;
-// let isEqualsOn = false;
-// let isAcOn = false;
-// let isCeOn = false;
-// let isDecimalOn = false;
-
 addEventListener("keydown", (event) => {
     switch (event.key) {
         case "0":
@@ -305,7 +298,10 @@ addEventListener("keydown", (event) => {
         case "7":
         case "8":
         case "9":
-            addToDisplay(event.key);
+            // we can verify if only one is disabled, because they all disable and enable together
+            const zeroBtn = document.querySelector(".digit-0");
+            if (!zeroBtn.disabled)
+                addToDisplay(event.key);
             break;
         case "+":
         case "-":
@@ -339,5 +335,4 @@ addEventListener("keydown", (event) => {
             }
             break;
     }
-    // console.log(event.key);
 });
