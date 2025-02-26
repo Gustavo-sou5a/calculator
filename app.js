@@ -278,12 +278,20 @@ function enableEraseButtons() {
     ac.disabled = false;
 }
 
+/*
 function disableEraseButtons() {
     const ce = document.querySelector(".clear");
     const ac = document.querySelector("#operator-ac");
     ce.disabled = true;
     ac.disabled = true;
 }
+*/
+
+// let areOperatorsOn = false;
+// let isEqualsOn = false;
+// let isAcOn = false;
+// let isCeOn = false;
+// let isDecimalOn = false;
 
 addEventListener("keydown", (event) => {
     switch (event.key) {
@@ -303,21 +311,33 @@ addEventListener("keydown", (event) => {
         case "-":
         case "*":
         case "/":
-            operatorEventListener(event.key);
+            // we can verify if only one is disabled, because they all disable and enable together
+            const plusBtn = document.querySelector("#operator-plus");
+            if (!plusBtn.disabled)
+                operatorEventListener(event.key);
             break;
         case "Enter":
-            operatorEventListener("=");
+            const equalBtn = document.querySelector("#operator-eq");
+            if (!equalBtn.disabled)
+                operatorEventListener("=");
             break;
         case "Delete":
-            operatorEventListener("AC");
+            const ac = document.querySelector("#operator-ac");
+            if (!ac.disabled)
+                operatorEventListener("AC");
             break;
         case "Backspace":
-            removeFromDisplay();
+            const ce = document.querySelector(".clear");
+            if (!ce.disabled)
+                removeFromDisplay();
             break;
         case ".":
-            addToDisplay(".");
-            decimalBtn.disabled = true;
+            const decimalBtn = document.querySelector(".decimal");
+            if (!decimalBtn.disabled) {
+                addToDisplay(".");
+                decimalBtn.disabled = true;
+            }
             break;
     }
-    console.log(event.key);
+    // console.log(event.key);
 });
