@@ -180,6 +180,8 @@ function removeFromDisplay() {
  * display and the operation clicked (given in the argument)
  */
 function startOperation(op) {
+    if (runningOperation.a === "-")
+        runningOperation.a = 0;
     runningOperation.op = op;
     enableDecimalPoint();
 }
